@@ -22,7 +22,6 @@ namespace Airport.Api.Controllers
     ICrewService _crewService;
     IAirhostessService _airhostessesService;
     IDepartureService _departureService;
-
     IValidator<CrewInputModel> _crewInputModelValidator;
 
     public CrewsController(
