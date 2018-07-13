@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
+using Airport.Common.Exceptions;
+
 using Airport.Data.MockData;
 using Airport.Data.Models;
 
@@ -53,12 +55,15 @@ namespace Airport.Data.Repositories
     public virtual void Delete(int id)
     {
       var toDelete = Get(id);
+
       _dataSource.Get<TEntity>().Remove(toDelete);
     }
 
     public virtual TEntity Get(int id)
     {
       var result = _dataSource.Get<TEntity>().FirstOrDefault(x => x.Id == id);
+      if (result == null)
+        throw new NotFoundException(typeof(TEntity).Name + " with such id was not found");
       return result;
     }
   }

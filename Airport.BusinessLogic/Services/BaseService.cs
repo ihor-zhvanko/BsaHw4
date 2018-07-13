@@ -4,6 +4,8 @@ using Airport.Data.UnitOfWork;
 using Airport.Data.Models;
 using AutoMapper;
 
+using Airport.Common.Exceptions;
+
 namespace Airport.BusinessLogic.Services
 {
   public class BaseService<TModel, TEntity> : IService<TModel> where TEntity : Entity
@@ -43,6 +45,9 @@ namespace Airport.BusinessLogic.Services
     public virtual TModel GetById(int id)
     {
       var entity = _unitOfWork.Set<TEntity>().Get(id);
+      if (entity == null)
+        throw new NotFoundException(typeof(TEntity).Name + " with such id was not found");
+
       return Mapper.Map<TModel>(entity);
     }
 

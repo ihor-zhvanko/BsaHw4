@@ -31,7 +31,8 @@ namespace Airport.BusinessLogic.Services
 
     public void AssignToCrew(IList<int> airhostessIds, int crewId)
     {
-      var toUpdate = _unitOfWork.Set<Airhostess>().Get(x => x.CrewId == crewId).ToList();
+      var toUpdate = _unitOfWork.Set<Airhostess>()
+        .Get(x => airhostessIds.Any(y => x.Id == y) || x.CrewId == crewId).ToList();
       foreach (var item in toUpdate)
       {
         if (airhostessIds.Any(x => x == item.Id))
